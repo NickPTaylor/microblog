@@ -1,1 +1,5 @@
-from app import APP
+"""
+Microblog App
+"""
+
+from app import APP # pylint: disable=unused-import
