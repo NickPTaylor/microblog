@@ -116,3 +116,6 @@ dmypy.json
 
 # Idea files
 *.idea
+
+# Database files
+*.db

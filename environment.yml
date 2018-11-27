@@ -6,6 +6,8 @@ dependencies:
   - certifi=2018.10.15=py37_0
   - click=7.0=py37_0
   - flask=1.0.2=py37_1
+  - flask-sqlalchemy=2.3.2=py37_0
+  - flask-wtf=0.14.2=py37_1
   - itsdangerous=1.1.0=py37_0
   - jinja2=2.10=py37_0
   - libedit=3.1.20170329=h6b74fdf_2
@@ -19,11 +21,20 @@ dependencies:
   - python=3.7.1=h0371630_3
   - readline=7.0=h7b6447c_5
   - setuptools=40.6.2=py37_0
+  - sqlalchemy=1.2.14=py37h7b6447c_0
   - sqlite=3.25.3=h7b6447c_0
   - tk=8.6.8=hbc83047_0
   - werkzeug=0.14.1=py37_0
   - wheel=0.32.2=py37_0
+  - wtforms=2.2.1=py37_0
   - xz=5.2.4=h14c3975_4
   - zlib=1.2.11=ha838bed_2
+  - pip:
+    - alembic==1.0.3
+    - flask-migrate==2.3.0
+    - mako==1.0.7
+    - python-dateutil==2.7.5
+    - python-editor==1.0.3
+    - six==1.11.0
 prefix: /home/nick/anaconda3/envs/microblog
 
