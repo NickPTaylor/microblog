@@ -7,4 +7,7 @@ from app.models import User, Post
 
 @APP.shell_context_processor
 def make_shell_context():
+    """
+    make shell context
+    """
     return {'DB': DB, 'User': User, 'Post': Post}
