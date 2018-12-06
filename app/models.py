@@ -2,6 +2,7 @@
 models module
 """
 from datetime import datetime
+from hashlib import md5
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -24,6 +25,8 @@ class User(UserMixin, DB.Model):
     email = DB.Column(DB.String(120), index=True, unique=True)
     password_hash = DB.Column(DB.String(128))
     posts = DB.relationship('Post', backref='author', lazy='dynamic')
+    about_me = DB.Column(DB.String(140))
+    last_seen = DB.Column(DB.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -39,6 +42,14 @@ class User(UserMixin, DB.Model):
         check password
         """
         return check_password_hash(self.password_hash, password)
+
+    def avatar(self, size):
+        """
+        get avatar
+        """
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        url_fmt = 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'
+        return url_fmt.format(digest, size)
 
 class Post(DB.Model):
     """
