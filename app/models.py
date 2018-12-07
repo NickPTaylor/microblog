@@ -16,6 +16,11 @@ def load_user(id):
     """
     return User.query.get(int(id))
 
+followers = DB.Table('followers',\
+    DB.Column('follower_id', DB.Integer, DB.ForeignKey('user.id')),
+    DB.Column('followed_id', DB.Integer, DB.ForeignKey('user.id')),
+)
+
 class User(UserMixin, DB.Model):
     """
     user model
@@ -27,6 +32,13 @@ class User(UserMixin, DB.Model):
     posts = DB.relationship('Post', backref='author', lazy='dynamic')
     about_me = DB.Column(DB.String(140))
     last_seen = DB.Column(DB.DateTime, default=datetime.utcnow)
+    followed = DB.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=DB.backref('followers', lazy='dynamic'),
+        lazy='dynamic'
+    )
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -50,6 +62,34 @@ class User(UserMixin, DB.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         url_fmt = 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'
         return url_fmt.format(digest, size)
+
+    def follow(self, user):
+        """
+        follow user
+        """
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        """
+        unfollow user
+        """
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        """
+        is this user following user
+        """
+        return self.followed.\
+            filter(followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        followed = Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)).filter(
+                followers.c.follower_id == self.id)
+        own = Post.query.filter_by(user_id=self.id)
+        return followed.union(own).order_by(Post.timestamp.desc())
 
 class Post(DB.Model):
     """

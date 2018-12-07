@@ -119,3 +119,6 @@ dmypy.json
 
 # Database files
 *.db
+
+# Log files
+logs
