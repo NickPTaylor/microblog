@@ -6,11 +6,12 @@ import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_mail import Mail
 
-from flask import Flask
 from config import Config
 
 APP = Flask(__name__)
@@ -19,6 +20,7 @@ DB = SQLAlchemy(APP)
 MIGRATE = Migrate(APP, DB)
 LOGIN = LoginManager(APP)
 LOGIN.login_view = 'login'
+MAIL = Mail(APP)
 
 from app import routes, models, errors  #pylint: disable=wrong-import-position
 
