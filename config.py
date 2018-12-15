@@ -28,3 +28,6 @@ class Config():
 
     # Languages
     LANGUAGES = ['en', 'es']
+
+    # API keys.
+    YANDEX_TRANSLATOR_KEY = os.environ.get('YANDEX_TRANSLATOR_KEY')
