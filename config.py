@@ -29,5 +29,6 @@ class Config():
     # Languages
     LANGUAGES = ['en', 'es']
 
-    # API keys.
+    # Services.
     YANDEX_TRANSLATOR_KEY = os.environ.get('YANDEX_TRANSLATOR_KEY')
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
